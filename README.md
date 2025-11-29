@@ -133,5 +133,5 @@ Este proyecto es perfecto como práctica para:
 
 - Oscar Tacuri
 - Wilson Siguencia
-- Adriel O
+- Adriel Ochoa
 - Freddy Potes
