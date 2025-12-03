@@ -118,6 +118,10 @@ Para descubrir automáticamente zonas vacías.
 ###  Serialización  
 Guardar objetos completos en un archivo binario.
 
+DIAGRAMA DE CLASES 
+![WhatsApp Image 2025-12-02 at 23 47 23 (1)](https://github.com/user-attachments/assets/317540c6-dd3f-4c92-9f52-096b8060e8a3)
+
+
 ---
 
 ##  Conclusión
