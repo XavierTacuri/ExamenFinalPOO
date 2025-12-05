@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.*;
 
-@DisplayName("Pruebas unitarias para Tablero - Happy Path y Excepciones")
+@DisplayName("Pruebas unitarias para Tablero - Happy Path y Casos Límite")
 class TableroTest {
 
     private Tablero tablero;
@@ -169,24 +169,27 @@ class TableroTest {
     @Test
     @DisplayName("El tablero es serializable")
     void testTableroSerializable() throws IOException, ClassNotFoundException {
+        String nombreArchivo = "test_tablero.dat";
+
         // Guardar
         try (ObjectOutputStream out = new ObjectOutputStream(
-                new FileOutputStream("test_tablero.dat"))) {
+                new FileOutputStream(nombreArchivo))) {
             out.writeObject(tablero);
         }
 
         // Cargar
         Tablero tableroRecuperado;
         try (ObjectInputStream in = new ObjectInputStream(
-                new FileInputStream("test_tablero.dat"))) {
+                new FileInputStream(nombreArchivo))) {
             tableroRecuperado = (Tablero) in.readObject();
         }
 
         assertNotNull(tableroRecuperado);
         assertEquals(tablero.getTamano(), tableroRecuperado.getTamano());
 
-        // Limpiar archivo de prueba
-        new File("test_tablero.dat").delete();
+        // Limpiar archivo de prueba (Solución del Warning)
+        File archivo = new File(nombreArchivo);
+        assertTrue(archivo.delete(), "El archivo temporal debería eliminarse al finalizar");
     }
 
     @Test
@@ -199,6 +202,36 @@ class TableroTest {
         assertTrue(tablero.getCasilla(0, 0).estaMarcada());
         assertTrue(tablero.getCasilla(1, 1).estaMarcada());
         assertTrue(tablero.getCasilla(2, 2).estaMarcada());
+    }
+
+// --- CASOS LÍMITE (EDGE CASES) AÑADIDOS ---
+
+    @Test
+    @DisplayName("Caso Límite: Lanzar excepción al intentar acceder a coordenadas fuera del tablero")
+    void testCoordenadasFueraDeRango() {
+        // Límite inferior negativo
+        assertThrows(IndexOutOfBoundsException.class, () -> tablero.getCasilla(-1, -1), "Debería lanzar excepción con índices negativos");
+
+        // Límite superior fuera del tamaño
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            tablero.getCasilla(10, 10);
+        }, "Debería lanzar excepción con índices iguales o mayores al tamaño");
+    }
+
+    @Test
+    @DisplayName("Caso Límite: No permitir descubrir una casilla que ya está marcada")
+    void testDescubrirCasillaMarcada() throws JuegoException, CasillaDescubierta {
+        // 1. Marcar una casilla segura (0,0)
+        tablero.marcarCasilla(0, 0);
+        assertTrue(tablero.getCasilla(0, 0).estaMarcada(), "La casilla debería estar marcada");
+
+        // 2. Intentar descubrirla (no debería tener efecto o debería protegerla)
+        boolean resultado = tablero.descubrirCasilla(0, 0);
+
+        // 3. Verificar que sigue marcada y NO está descubierta
+        assertTrue(tablero.getCasilla(0, 0).estaMarcada(), "La casilla debe seguir marcada tras el intento");
+        assertFalse(tablero.getCasilla(0, 0).estaDescubierta(), "La casilla marcada no debe revelarse");
+        assertFalse(resultado, "El método descubrir debería retornar false si la casilla estaba protegida");
     }
 
 }

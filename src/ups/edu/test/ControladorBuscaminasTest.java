@@ -9,7 +9,7 @@ import ups.edu.controlador.ControladorBuscaminas;
 
 import java.lang.reflect.Method;
 
-@DisplayName("Pruebas unitarias para ControladorBuscaminas - Happy Path y Excepciones")
+@DisplayName("Pruebas unitarias para ControladorBuscaminas - Happy Path y Casos Límite")
 class ControladorBuscaminasTest {
 
     private ControladorBuscaminas controlador;
@@ -91,5 +91,30 @@ class ControladorBuscaminasTest {
         assertArrayEquals(new int[]{0, 0}, resultado);
     }
 
+// --- NUEVOS CASOS LÍMITE AÑADIDOS ---
+
+    @Test
+    @DisplayName("Caso Límite: Coordenadas en minúsculas (a1) deben ser válidas")
+    void testParsearCoordenadasMinusculas() throws Exception {
+        Method metodo = ControladorBuscaminas.class.getDeclaredMethod(
+                "parsearCoordenadas", String.class);
+        metodo.setAccessible(true);
+
+        // Prueba que 'a1' se interprete igual que 'A1' (0,0)
+        int[] resultado = (int[]) metodo.invoke(controlador, "a1");
+        assertArrayEquals(new int[]{0, 0}, resultado);
+    }
+
+    @Test
+    @DisplayName("Caso Límite: Coordenadas con espacios al inicio y final")
+    void testParsearCoordenadasConTrim() throws Exception {
+        Method metodo = ControladorBuscaminas.class.getDeclaredMethod(
+                "parsearCoordenadas", String.class);
+        metodo.setAccessible(true);
+
+        // Prueba que ' B5 ' se limpie y se interprete como 'B5' (1,4)
+        int[] resultado = (int[]) metodo.invoke(controlador, " B5 ");
+        assertArrayEquals(new int[]{1, 4}, resultado);
+    }
 }
 
