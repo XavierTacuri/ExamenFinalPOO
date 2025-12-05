@@ -7,7 +7,7 @@ import ups.edu.modelo.Casilla;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Pruebas unitarias para Casilla - Happy Path")
+@DisplayName("Pruebas unitarias para Casilla - Happy Path y Excepciones")
 class CasillaTest {
 
     private Casilla casilla;
@@ -86,5 +86,35 @@ class CasillaTest {
             assertEquals(i, casilla.getMinasVecinas());
         }
     }
-}
+// --- NUEVAS PRUEBAS DE CASOS LÍMITE / EXCEPCIONES LÓGICAS ---
 
+    @Test
+    @DisplayName("Caso Límite: No se debe descubrir una casilla si está marcada")
+    void testNoDescubrirSiEstaMarcada() {
+        // 1. Marcamos la casilla
+        casilla.alternarMarcada();
+        assertTrue(casilla.estaMarcada(), "Precondición: La casilla debe estar marcada");
+
+        // 2. Intentamos descubrirla
+        casilla.descubrir();
+
+        // 3. Verificamos que NO se haya descubierto (protección contra clic accidental)
+        assertFalse(casilla.estaDescubierta(),
+                "La casilla NO debería descubrirse si tiene una marca puesta");
+    }
+
+    @Test
+    @DisplayName("Caso Límite: No se debe marcar una casilla si ya está descubierta")
+    void testNoMarcarSiEstaDescubierta() {
+        // 1. Descubrimos la casilla
+        casilla.descubrir();
+        assertTrue(casilla.estaDescubierta(), "Precondición: La casilla debe estar descubierta");
+
+        // 2. Intentamos marcarla
+        casilla.alternarMarcada();
+
+        // 3. Verificamos que NO se haya marcado (estado inválido lógico)
+        assertFalse(casilla.estaMarcada(),
+                "La casilla NO debería poder marcarse si ya ha sido descubierta");
+    }
+}

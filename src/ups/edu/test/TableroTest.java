@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.*;
 
-@DisplayName("Pruebas unitarias para Tablero - Happy Path")
+@DisplayName("Pruebas unitarias para Tablero - Happy Path y Excepciones")
 class TableroTest {
 
     private Tablero tablero;
@@ -200,5 +200,5 @@ class TableroTest {
         assertTrue(tablero.getCasilla(1, 1).estaMarcada());
         assertTrue(tablero.getCasilla(2, 2).estaMarcada());
     }
-}
 
+}

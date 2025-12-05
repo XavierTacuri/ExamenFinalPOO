@@ -9,7 +9,7 @@ import ups.edu.controlador.ControladorBuscaminas;
 
 import java.lang.reflect.Method;
 
-@DisplayName("Pruebas unitarias para ControladorBuscaminas - Happy Path")
+@DisplayName("Pruebas unitarias para ControladorBuscaminas - Happy Path y Excepciones")
 class ControladorBuscaminasTest {
 
     private ControladorBuscaminas controlador;
@@ -90,5 +90,6 @@ class ControladorBuscaminasTest {
         int[] resultado = (int[]) metodo.invoke(controlador, "A 1");
         assertArrayEquals(new int[]{0, 0}, resultado);
     }
+
 }
 
