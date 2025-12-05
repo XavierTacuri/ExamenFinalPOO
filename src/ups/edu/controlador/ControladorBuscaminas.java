@@ -40,7 +40,7 @@ public class ControladorBuscaminas {
                     salir = true;
                     break;
                 default:
-                    vista.mostrarMensaje("Opción no válida. Intenta de nuevo.");
+                    vista.mostrarMensaje("Opción inválida. Intenta nuevamente.");
                     break;
             }
         }
@@ -53,7 +53,7 @@ public class ControladorBuscaminas {
     }
 
     private void jugar() {
-        boolean juegoTerminado = false;
+        boolean juegoAcabado = false;
         boolean perdio = false;
 
         /**
@@ -61,7 +61,7 @@ public class ControladorBuscaminas {
          * Este bucle mantiene la partida activa permitiendo la interacción continua
          * con el usuario hasta que se alcance una condición de victoria o derrota.
          */
-        while (!juegoTerminado) {
+        while (!juegoAcabado) {
             // Se solicita a la vista que renderice el estado actual del tablero.
             // El parámetro 'false' indica que las minas deben permanecer ocultas.
             vista.mostrarTablero(tablero, false);
@@ -102,9 +102,9 @@ public class ControladorBuscaminas {
                     // Evaluación inmediata de las condiciones de fin de juego.
                     if (pisoMina) {
                         perdio = true;
-                        juegoTerminado = true;
+                        juegoAcabado = true;
                     } else if (tablero.esVictoria()) {
-                        juegoTerminado = true;
+                        juegoAcabado = true;
                     }
                 }
             } catch (CasillaDescubierta e) {
