@@ -119,7 +119,8 @@ Para descubrir automáticamente zonas vacías.
 Guardar objetos completos en un archivo binario.
 
 DIAGRAMA DE CLASES 
-![WhatsApp Image 2025-12-02 at 23 47 23 (1)](https://github.com/user-attachments/assets/317540c6-dd3f-4c92-9f52-096b8060e8a3)
+<img width="1280" height="1245" alt="image" src="https://github.com/user-attachments/assets/04b55e10-5273-4564-9935-5825df60dee6" />
+
 
 
 ---
